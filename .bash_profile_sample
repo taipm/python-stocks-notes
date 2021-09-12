@@ -2,4 +2,5 @@
 # on your own computer. Your .bash_profile or .bash_rc
 # is used to define environment variables, which are
 # retrieved through Python commands like os.environ['DATABASE_URL'].
-export DATABASE_URL='postgres://username:password@localhost/databasename'
+# export DATABASE_URL='postgres://username:P@$$w0rdPMT@localhost/csqa'
+export DATABASE_URL='postgres://azdegwesywaelt:a1eea3ce4edf5d2fb4f5773de5266f82f8183799d83756934518b4090c477708@ec2-34-196-238-94.compute-1.amazonaws.com:5432/d4vjfn004c6sb5'

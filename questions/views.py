@@ -149,6 +149,7 @@ def myQuestionsView(request):
                    'questions_exist': questions_exist})
     
 #TAIPM - UPDATE QUESTION
+#Update: 15.09.2021
 def update(request, id):
     current_user = request.user
     question = Question.objects.get(pk=id)

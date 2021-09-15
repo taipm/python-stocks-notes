@@ -109,6 +109,7 @@ def newView(request):
     q.save()
     return HttpResponseRedirect('/')
 
+
 def answerView(request, id):
     current_user = request.user
 
@@ -146,3 +147,38 @@ def myQuestionsView(request):
     return render(request, 'my_questions.html',
                   {'current_user': current_user, 'questions': questions,
                    'questions_exist': questions_exist})
+    
+#TAIPM - UPDATE QUESTION
+def update(request, id):
+    current_user = request.user
+    question = Question.objects.get(pk=id)
+    print("Đã vô hàm sau")
+    print(id)
+    _id = id
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    if request.method != 'POST':
+        render(request, 'update.html', {'current_user': current_user})
+    
+    form = QuestionForm(request.POST)
+    print(form)
+    if not form.is_valid() or current_user.points < 0:
+        return render(request, 'update.html', {'current_user': current_user})
+    
+    
+    question.title = form.cleaned_data['title']
+    question.body = form.cleaned_data['body']
+    question.save()
+    
+    return HttpResponseRedirect('/')
+
+def updateQuestion(request, id):
+    print('Vô hàm đầu')
+    current_user = request.user
+    question = Question.objects.get(pk=id)
+    return render(request, 'update.html',
+                  {'current_user': current_user, 'question': question})
+        
+
+   

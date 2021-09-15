@@ -17,6 +17,8 @@
   {% endif %}
   <span class="separator">|</span>
   <span>[[points]] points</span>
+  <span class="separator">|</span>
+  <a href="/question/{{question.id}}/updateQuestion">Update</a>
 </div>
 
 <answer
@@ -67,6 +69,10 @@ var points = JSON.parse(document.getElementById('points').textContent);
 var upvoted = JSON.parse(document.getElementById('upvoted').textContent);
 var downvoted = JSON.parse(document.getElementById('downvoted').textContent);
 var answers = JSON.parse(document.getElementById('answers_serialized').textContent);
+
+// function edit(){
+//   console.log('Bạn vừa click edit');
+// }
 
 function vote(voteType, voted, voteURL) {
   var bodyFormData = new FormData();

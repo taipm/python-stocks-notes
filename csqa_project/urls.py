@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from main.views import homeFeedView, testView, leaderboardView
 from pages.views import aboutPageView, searchView
-from questions.views import (questionView, update, updateQuestion, newView, answerView,
+from questions.views import (questionView, update, updateQuestion, newView, answerView, doSearch, search,
                             myQuestionsView, myAnswersView, questionVoteView, updateAnswer,saveAnswer,
                             answerVoteView)
 
@@ -12,7 +12,9 @@ urlpatterns = [
     path('', homeFeedView),
     path('test/', testView),
     path('leaderboard/', leaderboardView),
-    path('search/', searchView, name='search'),
+    #path('search/', searchView, name='search'),
+    path('search/', search, name='search'),
+    path('search/results/', doSearch),
     path('about/', aboutPageView),
     path('accounts/', include('allauth.urls')),
     path('question/<int:id>/', questionView),

@@ -1,9 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="search">
-    <div class="text-secondary">Search for questions using any keywords below (e.g., React or Django):</div>
-    <script async src="https://cse.google.com/cse.js?cx=007679931108359858206:hhdmsjam6ku"></script>
-    <div class="gcse-search"></div>
-</div>
+<form action="/search/results/" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <textarea class="form-control" id="keywords" name="keywords" rows="3"
+            placeholder="{% block bodyFormData %}{% endblock %}"></textarea></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+</form>
 {% endblock %}

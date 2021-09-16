@@ -1,3 +1,5 @@
+from django.forms.forms import Form
+from pages.views import searchView
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
@@ -204,3 +206,24 @@ def saveAnswer(request, id):
     answer.save()
 
     return HttpResponseRedirect('/')
+
+def search(request):
+    "Search in question and answer with keyword"
+    print('view search')
+    keyword = "search word ..."
+    return render(request, 'search.html', {'search':keyword})
+    # return render(request, 'my_questions.html',
+    #               {'current_user': current_user, 'questions': questions,
+    #                'questions_exist': questions_exist})
+
+
+def doSearch(request):
+    "Search in question and answer with keyword"
+    print("finding ...")
+    #current_user = request.user
+    form = Form(request.POST)
+    # print(form.data)
+    # print(form.data['keywords'])
+    ask = form.data['keywords']
+    questions = Question.objects.filter(title__contains=ask)
+    return render(request, 'my_questions.html',{'questions': questions})

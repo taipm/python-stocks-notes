@@ -9,6 +9,9 @@
     <div class='answer-block'>
       <div class='text-secondary' style="font-size: 14px">{{ answer.user }}<span style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ answer.x_ago }}</div>
       <div style="margin-bottom: 20px">{{ answer.text | urlize }}</div>
+      <div style="margin-bottom: 20px;">
+        <a href="/answer/{{answer.id}}/update">Update</a>
+      </div>
     </div>
     <hr/>
 {% endfor %}

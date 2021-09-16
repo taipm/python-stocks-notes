@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
     {% if current_user.points > -1 %}
-    <form action="/question/{{question.id}}/update/" method="post" >
+    <form action="/answer/{{answer.id}}/saveAnswer/" method="post" >
         {% csrf_token %}
         <div class="form-group">
-          <label for="title">Update question</label>
-          <input class="form-control" id="title" name="title" placeholder="{% block title %}{{question.title}}{% endblock %}" required>
-        </div>
-        <div class="form-group">
           <label for="title">Details</label>
-          <textarea class="form-control" id="body" name="body" rows="3" placeholder="{% block bodyFormData %}{{question.body}}{% endblock %}">{{question.body}}</textarea></textarea>
+          <textarea class="form-control" id="text" name="text" rows="3" placeholder="{% block bodyFormData %}{{answer.text}}{% endblock %}">{{answer.text}}</textarea></textarea>
         </div>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>

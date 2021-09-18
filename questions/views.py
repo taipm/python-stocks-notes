@@ -1,3 +1,4 @@
+from questions.crawler import getDetail
 from typing import Text
 from django.forms.forms import Form
 from pages.views import searchView
@@ -134,16 +135,6 @@ def answerView(request, id):
 def myAnswersView(request):
     current_user = request.user
     answers = Answer.objects.filter(user_id = current_user.id).order_by('-created')
-    # for answer in answers:
-    #     comments = Comment.objects.filter(answer_id = answer.id).order_by('-created')
-    #     print('Lần chạy mới')
-    #     print(len(comments))
-    #     print(comments)
-    #     if len(comments) >0:
-    #         for comment in comments:
-    #             print(comment)
-    #             #comment_serialized = CommentSerializer(comment, many=True).data
-    #             #print(comment_serialized)
     answers_exist = len(answers) > 0
     paginator = Paginator(answers, 10)
     page_number = request.GET.get('page')
@@ -231,6 +222,11 @@ def doSearch(request):
     # print(form.data)
     # print(form.data['keywords'])
     ask = form.data['keywords']
+    
+    if(ask == "HPG"):
+        data = getDetail("HPG")
+        return render(request, 'stock_view.html', {'data': data})
+    
     questions = Question.objects.filter(title__contains=ask)
     return render(request, 'my_questions.html',{'questions': questions})
 
@@ -285,3 +281,6 @@ def myCommentsView(request):
                   {'current_user': current_user,
                    'answers_exist': comments_exist,
                    'page_obj': page_obj})
+
+# def getStockPrice(stock):
+    

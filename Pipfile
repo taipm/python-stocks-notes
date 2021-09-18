@@ -11,6 +11,11 @@ whitenoise = "*"
 "psycopg2" = "*"
 dj-database-url = "*"
 djangorestframework = "*"
+beautifulsoup4 = "*"
+lxml = "*"
+pandas = "*"
+html-table-extractor = "*"
+tabulate = "*"
 
 [dev-packages]
 pylint = "*"

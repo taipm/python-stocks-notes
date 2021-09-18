@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="answers">
+{% for comment in page_obj %}
+    <p style="margin-bottom: 1">
+        <a href="/question/{{answer.question.id}}">{{ comment.answer.text }} <span class="text-secondary num-answers">({{ comment.answer.num_comments }} comments)</span></a>
+    </p>
+    <div class='answer-block'>
+      <div class='text-secondary' style="font-size: 14px">{{ comment.user }}<span style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ comment.x_ago }}</div>
+      <div style="margin-bottom: 20px">{{ comment.text | urlize }}</div>
+      <div style="margin-bottom: 20px;">
+        <a href="/answer/{{answer.id}}/update">Update</a> | <a href="/answer/{{answer.id}}/addComment">addComment</a>
+      </div>
+    </div>
+    <hr/>
+{% endfor %}
+</div>
+{% if not answers_exist %}
+<p>You haven't answered any questions yet.</p>
+{% else %}
+<div class="pagination" style="margin-bottom: 3; margin-top: 3">
+  <span class="step-links">
+      {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}">&laquo; previous</a>
+      {% endif %}
+
+      <span class="current text-secondary">
+            page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+      </span>
+
+      {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}">next &raquo;</a>
+      {% endif %}
+  </span>
+</div>
+{% endif %}
+{% endblock %}

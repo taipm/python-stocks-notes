@@ -4,9 +4,11 @@
 
 {% block content %}
 <div id="question">
-
 <h5>{{question.title}}</h5>
-<div style="margin-bottom: 5px; font-size: 17px; white-space: break-spaces">{{question.body | urlize }}</div>
+<div class="answer-text">
+  {{question.body}}
+</div>
+<!-- <div style="margin-bottom: 5px; font-size: 17px; white-space: break-spaces">{{question.body | urlize }}</div> -->
 <div class='text-secondary' style="font-size: 14px">
   posted by {{ question.user }}</span><span class="separator">|</span>{{ question.x_ago }}
   {% if not asked_by_user %}
@@ -18,24 +20,46 @@
   <span class="separator">|</span>
   <span>[[points]] points</span>
   <span class="separator">|</span>
+  <span>Answers ({{question.num_answers}})</span>
+  <span class="separator">|</span>
   <a href="/question/{{question.id}}/updateQuestion">Update</a>
 </div>
 
-<answer
+<!-- <answer
   v-if="!allAnswersShown"
   v-for="answer in visibleAnswers"
   v-bind:key="answer.id"
   v-bind:answer="answer"
-></answer>
+></answer> -->
 
-<answer
+<!-- <answer
   v-if="allAnswersShown"
   v-for="answer in answers"
   v-bind:key="answer.id"
   v-bind:answer="answer"
-></answer>
+></answer> -->
 
-<hr class='answer-hr'/>
+<hr class='answer-hr' />
+<div class='answer-block'>
+  {% for a in question.answers %}
+  {{a.text}}
+  {% endfor %}
+</div>
+
+
+<hr class='answer-hr' />
+<div class='text-secondary' style="font-size: 14px">
+  {% for a in question.answers %}
+  Comments: {{a.num_comments}}
+    {% for c in a.comments %}
+    <div class='text-secondary' style="font-size: 13px; margin-left: 5px">
+      {{c.text}}
+      <hr class='answer-hr' />
+    </div>
+    {% endfor %}
+  {% endfor %}
+</div>
+
 <div
   v-if="answersHidden"
   style="text-align: right; font-size: 14px; margin-bottom: 5px">

@@ -37,6 +37,16 @@ a.done:link, a.done:hover, a.done:visited, a.done:active{
     white-space: break-spaces;
 }
 
+.question-block {
+    margin-left: 0px;
+}
+
+.question-text {
+    font-size: 14;
+    white-space: break-spaces;
+    margin-left: 0px;
+}
+
 .answer-block {
     margin-left: 10px;
 }

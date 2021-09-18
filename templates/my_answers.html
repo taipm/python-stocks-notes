@@ -4,14 +4,25 @@
 <div class="answers">
 {% for answer in page_obj %}
     <p style="margin-bottom: 1">
-        <a href="/question/{{answer.question.id}}">{{ answer.question.title }} <span class="text-secondary num-answers">({{ answer.question.num_answers }} comments)</span></a>
+        <a href="/question/{{answer.question.id}}">{{ answer.question.title }} <span class="text-secondary num-answers">({{ answer.question.num_answers }} answers)</span></a>
     </p>
     <div class='answer-block'>
-      <div class='text-secondary' style="font-size: 14px">{{ answer.user }}<span style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ answer.x_ago }}</div>
-      <div style="margin-bottom: 20px">{{ answer.text | urlize }}</div>
-      <div style="margin-bottom: 20px;">
-        <a href="/answer/{{answer.id}}/update">Update</a>
+      <div class='text-secondary' style="font-size: 14px">{{ answer.user }}<span style="margin-right: 6px; margin-left: 6px;">
+        |</span></span>{{ answer.x_ago }}
+        | <a href="/answer/{{answer.id}}/update">Update</a>
       </div>
+      <div style="margin-bottom: 20px">{{ answer.text | urlize }}</div>
+      <div class='text-secondary' style="font-size: 14px">Comments ({{answer.num_comments}}) | <a href="/answer/{{answer.id}}/addComment">comment(+)</a><span style="margin-right: 6px; margin-left: 6px;">
+      </span></div>
+      {% for c in answer.comments %}
+        <div class='answer-block'>
+          <div class='text-secondary' style="font-size: 14px">{{ c.user }}<span
+              style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ c.x_ago }}
+              | <a href="/comment/{{comment.id}}/update">edit</a>
+          </div>
+          {{c.text}}
+        </div>
+      {% endfor %}
     </div>
     <hr/>
 {% endfor %}

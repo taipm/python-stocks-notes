@@ -36,11 +36,11 @@ class Question(models.Model):
     answers_count = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
     hidden = models.BooleanField(default=False)
-
+    answers = []
     @property
     def num_answers(self):
-        answers = Answer.objects.filter(question_id = self.id)
-        return len(answers)
+        self.answers = Answer.objects.filter(question_id = self.id)
+        return len(self.answers)
     def x_ago(self):
         diff = timezone.now() - self.created
         return x_ago_helper(diff)
@@ -74,7 +74,13 @@ class Answer(models.Model):
     modified = models.DateTimeField()
     points = models.IntegerField(default=0)
     hidden = models.BooleanField(default=False)
+    comments = []
 
+    @property
+    def num_comments(self):
+        self.comments = Comment.objects.filter(answer_id=self.id)
+        return len(self.comments)
+    
     @property
     def x_ago(self):
         diff = timezone.now() - self.created
@@ -93,6 +99,45 @@ class Answer(models.Model):
     def __str__(self):
         return self.text
 
+#TAIPM - ADD COMMENT
+class Comment(models.Model):
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    text = models.TextField()
+    created = models.DateTimeField(editable=False)
+    modified = models.DateTimeField()
+    points = models.IntegerField(default=0)
+    hidden = models.BooleanField(default=False)
+
+    @property
+    def x_ago(self):
+        diff = timezone.now() - self.created
+        return x_ago_helper(diff)
+
+    def update_points(self):
+        update_points_helper(self)
+
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.modified = timezone.now()
+        return super(Comment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.text
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ('user', 'text', 'ansswer_id', 'created',
+                  'comment_count')
+#TAIPM - ADD COMMENT
+class CommentForm(forms.Form):
+    text = forms.CharField(max_length=5000, widget=forms.Textarea)
+    
 class AnswerForm(forms.Form):
     text = forms.CharField(max_length=5000, widget=forms.Textarea)
 

@@ -1,9 +1,10 @@
+from typing import Text
 from django.forms.forms import Form
 from pages.views import searchView
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonResponse, HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
-from main.models import (Question, Answer, QuestionForm, AnswerForm,
+from main.models import (Comment, CommentForm, Question, Answer, QuestionForm, AnswerForm, CommentSerializer,
                         QuestionSerializer, AnswerSerializer)
 from django.core.paginator import Paginator
 
@@ -133,6 +134,16 @@ def answerView(request, id):
 def myAnswersView(request):
     current_user = request.user
     answers = Answer.objects.filter(user_id = current_user.id).order_by('-created')
+    # for answer in answers:
+    #     comments = Comment.objects.filter(answer_id = answer.id).order_by('-created')
+    #     print('Lần chạy mới')
+    #     print(len(comments))
+    #     print(comments)
+    #     if len(comments) >0:
+    #         for comment in comments:
+    #             print(comment)
+    #             #comment_serialized = CommentSerializer(comment, many=True).data
+    #             #print(comment_serialized)
     answers_exist = len(answers) > 0
     paginator = Paginator(answers, 10)
     page_number = request.GET.get('page')
@@ -173,7 +184,6 @@ def update(request, id):
     return HttpResponseRedirect('/')
 
 def updateQuestion(request, id):
-    
     current_user = request.user
     question = Question.objects.get(pk=id)
     return render(request, 'update.html',
@@ -181,7 +191,6 @@ def updateQuestion(request, id):
         
 
 def updateAnswer(request, id):
-   
     current_user = request.user
     answer = Answer.objects.get(pk=id)
     return render(request, 'updateAnswer.html',
@@ -212,9 +221,6 @@ def search(request):
     print('view search')
     keyword = "search word ..."
     return render(request, 'search.html', {'search':keyword})
-    # return render(request, 'my_questions.html',
-    #               {'current_user': current_user, 'questions': questions,
-    #                'questions_exist': questions_exist})
 
 
 def doSearch(request):
@@ -227,3 +233,55 @@ def doSearch(request):
     ask = form.data['keywords']
     questions = Question.objects.filter(title__contains=ask)
     return render(request, 'my_questions.html',{'questions': questions})
+
+def addComment(request, id):
+    current_user = request.user
+    print("add comment ...")
+    print(id)
+    answerId = id
+    answer = Answer.objects.get(pk=answerId)
+    
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    context = {'answer': answer,
+               'current_user': current_user}
+    return render(request, 'addComment.html', context)
+
+
+def saveComment(request, id):
+    current_user = request.user
+    print("save cooomment ..")
+    #answer = Answer.objects.get(pk=id)
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    if request.method != 'POST':
+        render(request, 'addComment.html', {'current_user': current_user})
+
+    form = CommentForm(request.POST)
+    if not form.is_valid() or current_user.points < 0:
+        return render(request, 'addComment.html', {'current_user': current_user})
+
+    c = Comment(
+        user_id=current_user.id,
+        answer_id = id,
+        text=form.data['text']
+    )
+    c.save()
+    
+    return HttpResponseRedirect('/')
+
+
+def myCommentsView(request):
+    current_user = request.user
+    comments = Comment.objects.filter(
+        user_id=current_user.id).order_by('-created')
+    comments_exist = len(comments) > 0
+    paginator = Paginator(comments, 10)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'my_comments.html',
+                  {'current_user': current_user,
+                   'answers_exist': comments_exist,
+                   'page_obj': page_obj})

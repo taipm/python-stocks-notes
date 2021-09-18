@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{question.title}} | CSQA{% endblock %}
+{% block title %}{{question.title}} | CSQA {% endblock %}
 
 {% block content %}
 <div id="question">
@@ -25,36 +25,26 @@
   <a href="/question/{{question.id}}/updateQuestion">Update</a>
 </div>
 
-<!-- <answer
-  v-if="!allAnswersShown"
-  v-for="answer in visibleAnswers"
-  v-bind:key="answer.id"
-  v-bind:answer="answer"
-></answer> -->
-
-<!-- <answer
-  v-if="allAnswersShown"
-  v-for="answer in answers"
-  v-bind:key="answer.id"
-  v-bind:answer="answer"
-></answer> -->
-
-<hr class='answer-hr' />
 <div class='answer-block'>
   {% for a in question.answers %}
-  {{a.text}}
+  <!-- {{a.text}} -->
+    <div class="answer-text">
+      {{a.text}}
+    </div>
+    <div class='text-secondary' style="font-size: 14px">{{ a.user }}<span
+        style="margin-right: 6px; margin-left: 6px;">
+        |</span></span>{{ a.x_ago }}
+    </div>
   {% endfor %}
 </div>
 
-
-<hr class='answer-hr' />
 <div class='text-secondary' style="font-size: 14px">
   {% for a in question.answers %}
-  Comments: {{a.num_comments}}
+  <hr class='answer-hr' />
+    Comments: {{a.num_comments}}
     {% for c in a.comments %}
     <div class='text-secondary' style="font-size: 13px; margin-left: 5px">
       {{c.text}}
-      <hr class='answer-hr' />
     </div>
     {% endfor %}
   {% endfor %}

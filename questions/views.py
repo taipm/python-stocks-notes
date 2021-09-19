@@ -221,12 +221,12 @@ def doSearch(request):
     #current_user = request.user
     form = Form(request.POST)
     ask = form.data['keywords']
-    f = open(".\data\stocks.txt", "r")
-    items = f.read().split(',')
-    stocks = []
-    for item in items:
-        if (len(item)>2):
-            stocks.append(item.strip().upper())
+    # f = open(".\data\stocks.txt", "r")
+    # items = f.read().split(',')
+    # stocks = []
+    # for item in items:
+    #     if (len(item)>2):
+    #         stocks.append(item.strip().upper())
     try:
         #Phân tích n = 10 phiên gần nhất
         data = stock_analysis_result(ask,10)

@@ -27,26 +27,26 @@
 
 <div class='answer-block'>
   {% for a in question.answers %}
-  <!-- {{a.text}} -->
-    <div class="answer-text">
-      {{a.text}}
-    </div>
+    <hr class='answer-hr' />
     <div class='text-secondary' style="font-size: 14px">{{ a.user }}<span
         style="margin-right: 6px; margin-left: 6px;">
         |</span></span>{{ a.x_ago }}
+        | <a href="/answer/{{a.id}}/update">edit</a>
     </div>
-  {% endfor %}
-</div>
-
-<div class='text-secondary' style="font-size: 14px">
-  {% for a in question.answers %}
-  <hr class='answer-hr' />
-    Comments: {{a.num_comments}}
-    {% for c in a.comments %}
-    <div class='text-secondary' style="font-size: 13px; margin-left: 5px">
-      {{c.text}}
+    <div class="answer-text">
+      {{a.text}}
     </div>
-    {% endfor %}
+    <div class='text-secondary' style="font-size: 14px">
+      {% for a in a.comments %}
+      <hr class='answer-hr' />
+      Comments: {{a.num_comments}}
+      {% for c in a.comments %}
+      <div class='text-secondary' style="font-size: 13px; margin-left: 5px">
+        {{c.text}}
+      </div>
+      {% endfor %}
+      {% endfor %}
+    </div>
   {% endfor %}
 </div>
 

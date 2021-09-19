@@ -222,13 +222,23 @@ def doSearch(request):
     # print(form.data)
     # print(form.data['keywords'])
     ask = form.data['keywords']
-    
-    if(ask == "HPG"):
-        data = getDetail("HPG")
+    f = open(".\data\stocks.txt", "r")
+    items = f.read().split(',')
+    stocks = []
+    for item in items:
+        if (len(item)>2):
+            stocks.append(item.strip().upper())
+    if(ask.upper() in stocks):
+        data = getDetail(ask)
         return render(request, 'stock_view.html', {'data': data})
-    
-    questions = Question.objects.filter(title__contains=ask)
-    return render(request, 'my_questions.html',{'questions': questions})
+    else:
+        try:
+            data = getDetail(ask)
+            if(len(data)>1):
+                return render(request, 'stock_view.html', {'data': data})
+        except:
+            questions = Question.objects.filter(title__contains=ask)
+            return render(request, 'my_questions.html',{'questions': questions})
 
 def addComment(request, id):
     current_user = request.user

@@ -1,5 +1,20 @@
 {% extends "base.html" %}
 
 {% block content %}
-{{ data }}
+
+Phân tích cổ phiếu <span style="color: green; font-size: 16; font-weight: bolder;";>{{stock}}</span> trong {{ n }} phiên gần nhất: <br/>
+Giá hiện tại : {{price}} | Biến động: {{rate_price}} (so với {{n}} phiên) <br/>
+Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (so với TB {{n}} phiên)<br />
+Giá cao nhất: {{ price_max }} <br />
+Giá thấp nhất: {{price_min}} <br />
+Khối lượng cao nhất: {{vol_max}}<br />
+Khối lượng thấp nhất: {{vol_min}}<br />
+Khối lượng trung bình: {{vol_avg}}<br />
+<p>
+    <hr class='answer-hr' />
+    {{note}} <br />
+</p>
+
+
+{{ price_history|safe }}
 {% endblock %}

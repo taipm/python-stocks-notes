@@ -1,4 +1,5 @@
-from questions.crawler import getDetail
+from questions.stockAnalysis import stock_analysis_result
+from questions.crawler import getDetail, importData
 from typing import Text
 from django.forms.forms import Form
 from pages.views import searchView
@@ -213,14 +214,12 @@ def search(request):
     keyword = "search word ..."
     return render(request, 'search.html', {'search':keyword})
 
-
+#from django.shortcuts import render
 def doSearch(request):
     "Search in question and answer with keyword"
     print("finding ...")
     #current_user = request.user
     form = Form(request.POST)
-    # print(form.data)
-    # print(form.data['keywords'])
     ask = form.data['keywords']
     f = open(".\data\stocks.txt", "r")
     items = f.read().split(',')
@@ -228,17 +227,21 @@ def doSearch(request):
     for item in items:
         if (len(item)>2):
             stocks.append(item.strip().upper())
-    if(ask.upper() in stocks):
-        data = getDetail(ask)
-        return render(request, 'stock_view.html', {'data': data})
-    else:
-        try:
-            data = getDetail(ask)
-            if(len(data)>1):
-                return render(request, 'stock_view.html', {'data': data})
-        except:
-            questions = Question.objects.filter(title__contains=ask)
-            return render(request, 'my_questions.html',{'questions': questions})
+    try:
+        #Phân tích n = 10 phiên gần nhất
+        data = stock_analysis_result(ask,10)
+        if(len(data[9]) > 100):
+            return render(request, 'stock_view.html', {'stock': data[0], 'n' : data[1], 'price':data[2], 'vol':data[3], 
+                                                       'price_max': data[4], 'price_min': data[5],
+                                                       'vol_max': data[6], 'vol_min': data[7], 
+                                                       'vol_avg': "{:.2f}".format(data[8]),
+                                                       'price_history': data[9],
+                                                       'rate_price': "{:.2f}".format(data[10]), 
+                                                       'rate_vol': "{:.2f}".format(data[11]),
+                                                       'note' : data[12]})
+    except:
+        questions = Question.objects.filter(title__contains=ask)
+        return render(request, 'my_questions.html',{'questions': questions})
 
 def addComment(request, id):
     current_user = request.user

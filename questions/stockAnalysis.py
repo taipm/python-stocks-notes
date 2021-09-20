@@ -5,13 +5,15 @@ import numpy as np
 def stock_analysis_result(stock, n):
     df_data = importData(stock)
     df = DataFrame(df_data)
-    prices_hist =df['DC'] #Để tìm điểm pivots
+    
+    prices_hist = df['DC'] #Để tìm điểm pivots
     prices_margins_hist = df['%']  # Để tìm điểm pivots
+    vols_hist = df['KL']  # Để tìm điểm pivots
     data_hist = df.to_html()
+    
     df = df.head(n+1)
     
     prices = df['DC']
-    
     vols = df['KL']
     #price_margins = df['%']
     #print(price_margins)
@@ -46,20 +48,24 @@ def stock_analysis_result(stock, n):
     #ĐIỂM BREAK (VOL, PRICE)
     pivots = []
     for i in range(0,len(prices_hist)-3):
-        x = ((prices[i]-prices[i+1])/prices[i+1])*100
+        x = ((prices_hist[i]-prices_hist[i+1])/prices_hist[i+1])*100
         if(x >= 3):
             print('Break price')
-            y = vols[i]/np.average([vols[i],vols[i+1], vols[i+2]])
+            y = vols_hist[i] / \
+                np.average([vols_hist[i], vols_hist[i+1], vols_hist[i+2]])
             if(y >= 1):
                 print("Break : " + str(i) + "(" + str(x) + "," + str(y) + ")")
                 mark_pivot = float("{:.2f}".format(x*y))
                 note_pivot = ""
+                
                 margin_from_pivot = float("{:.2f}".format(
                     np.sum(prices_margins_hist[0:i])))
+                
                 note_pivot = note_pivot + str(margin_from_pivot) + ' (%)'
                 if(mark_pivot >= 8):
                     note_pivot = note_pivot + "] ==> Chú ý: Cực mạnh"
-                pivots.append([i, prices[i], vols[i], mark_pivot, note_pivot])
+                pivots.append(
+                    [i, prices_hist[i], vols_hist[i], mark_pivot, note_pivot])
     
     #Tính điểm #01: Sức mạnh (Giá, KL)
     price_avg_3 = np.average(prices[0:2])

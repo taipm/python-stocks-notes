@@ -10,9 +10,18 @@ Giá thấp nhất: {{price_min}} <br />
 Khối lượng cao nhất: {{vol_max}}<br />
 Khối lượng thấp nhất: {{vol_min}}<br />
 Khối lượng trung bình: {{vol_avg}}<br />
+Điểm pivots:
+<ul>
+{% for x in pivots %}
+<li>
+{{x}}
+</li>
+{% endfor %}
+</ul>
 <p>
     <hr class='answer-hr' />
-    {{note}} <br />
+    Đánh giá: <br>Điểm sức mạnh : {{mark}} <br>
+    {{note|safe}} <br />
 </p>
 
 

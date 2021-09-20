@@ -52,7 +52,7 @@ def importData(stock):
                     th = cell.find_all('th')
                     th_data = [col.text.strip('\n') for col in th]
                     td = cell.find_all('td')
-                    row = [i.text.replace('\n', '') for i in td]
+                    row = [i.text.replace('\n', '').replace('%','') for i in td]
                     # row = [i.text.replace('\n', '') for i in td]
                     #print(row[0])
                     if(row[0].startswith('#')):

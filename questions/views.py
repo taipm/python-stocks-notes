@@ -221,12 +221,7 @@ def doSearch(request):
     #current_user = request.user
     form = Form(request.POST)
     ask = form.data['keywords']
-    # f = open(".\data\stocks.txt", "r")
-    # items = f.read().split(',')
-    # stocks = []
-    # for item in items:
-    #     if (len(item)>2):
-    #         stocks.append(item.strip().upper())
+    
     try:
         #Phân tích n = 10 phiên gần nhất
         data = stock_analysis_result(ask,10)
@@ -238,7 +233,9 @@ def doSearch(request):
                                                        'price_history': data[9],
                                                        'rate_price': "{:.2f}".format(data[10]), 
                                                        'rate_vol': "{:.2f}".format(data[11]),
-                                                       'note' : data[12]})
+                                                       'mark': "{:.2f}".format(data[12]),
+                                                       'pivots': data[13],
+                                                       'note' : data[14]})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

@@ -75,13 +75,29 @@ def stock_analysis_result(stock, n):
     mark_price = (price-price_avg_3)/price_avg_3
     mark_1 = mark_vol*mark_price*100
     
-    #Tính điểm #02: Xu hướng (số phiên tăng nhiều hơn số phiên giảm)
+    #Tính điểm #02: Đánh dấu cột mốc lịch sử (Giá vượt đỉnh lịch sử (cùng với KL tương xứng))
+    #print(np.max(prices))
+    if(price >= np.max(prices_hist[1:])):
+        note = note + "\nGhi chú đặc biệt:\n(1) Giá vượt đỉnh lịch sử"
+        mark_2 = 10
+        if(vol >= np.max(vols_hist[1:])):
+            note = note + "\n(2) Vol & Giá cùng vượt đỉnh lịch sử"
+            mark_2 = 15
+        else: #Ghi chú về vol
+            note = note + "\nVol ~ " + \
+                "{:.2f}".format(((vol-np.max(vols_hist))/np.max(vols_hist[1:]))
+                                * 100) + "(%) vs Max_Vol (100 phiên)"
     
-    mark = mark_1
+    mark = mark_1 + mark_2
     print(note)
     
+    note_price = ""
+    note_price = note_price + \
+        "{:.2f}".format(((price-np.max(prices_hist[1:]))/np.max(prices_hist[1:]))
+                        * 100) + " (%) vs Max(100 phiên)"
+    
     return [stock.upper(), n, price, vol, price_max, price_min, vol_max, 
-            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note]
+            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note, note_price]
 
 #def getMark(df):
     

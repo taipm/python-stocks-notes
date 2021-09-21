@@ -3,7 +3,7 @@
 {% block content %}
 
 Phân tích cổ phiếu <span style="color: green; font-size: 16; font-weight: bolder;";>{{stock}}</span> trong {{ n }} phiên gần nhất: <br/>
-Giá hiện tại : {{price}} | Biến động: {{rate_price}} (so với {{n}} phiên) <br/>
+Giá hiện tại : {{price}} | Biến động: {{rate_price}} (so với {{n}} phiên) | {{note_price}}<br/>
 Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (so với TB {{n}} phiên)<br />
 Giá cao nhất: {{ price_max }} <br />
 Giá thấp nhất: {{price_min}} <br />
@@ -21,7 +21,7 @@ Khối lượng trung bình: {{vol_avg}}<br />
 <p>
     <hr class='answer-hr' />
     Đánh giá: <br>Điểm sức mạnh : {{mark}} <br>
-    {{note|safe}} <br />
+    {{note|linebreaksbr}} <br />
 </p>
 
 

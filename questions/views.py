@@ -235,7 +235,8 @@ def doSearch(request):
                                                        'rate_vol': "{:.2f}".format(data[11]),
                                                        'mark': "{:.2f}".format(data[12]),
                                                        'pivots': data[13],
-                                                       'note' : data[14]})
+                                                       'note' : data[14],
+                                                       'note_price':data[15]})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

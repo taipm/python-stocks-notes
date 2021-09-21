@@ -46,6 +46,7 @@ def stock_analysis_result(stock, n):
         note = note + "\nVượt đỉnh Giá (" + str(n) + ") phiên"
     
     #ĐIỂM BREAK (VOL, PRICE)
+    print("Break")
     pivots = []
     for i in range(0,len(prices_hist)-3):
         x = ((prices_hist[i]-prices_hist[i+1])/prices_hist[i+1])*100
@@ -76,7 +77,8 @@ def stock_analysis_result(stock, n):
     mark_1 = mark_vol*mark_price*100
     
     #Tính điểm #02: Đánh dấu cột mốc lịch sử (Giá vượt đỉnh lịch sử (cùng với KL tương xứng))
-    #print(np.max(prices))
+    print(np.max(prices))
+    mark_2 = 0
     if(price >= np.max(prices_hist[1:])):
         note = note + "\nGhi chú đặc biệt:\n(1) Giá vượt đỉnh lịch sử"
         mark_2 = 10
@@ -85,17 +87,21 @@ def stock_analysis_result(stock, n):
             mark_2 = 15
         else: #Ghi chú về vol
             note = note + "\nVol ~ " + \
-                "{:.2f}".format(((vol-np.max(vols_hist))/np.max(vols_hist[1:]))
+                "{:.2f}".format(((vol-np.max(vols_hist[1:]))/np.max(vols_hist[1:]))
                                 * 100) + "(%) vs Max_Vol (100 phiên)"
-    
+    print('Điểm 02')
     mark = mark_1 + mark_2
+    print("Điểm : " + str(mark))
     print(note)
     
     note_price = ""
-    note_price = note_price + \
-        "{:.2f}".format(((price-np.max(prices_hist[1:]))/np.max(prices_hist[1:]))
-                        * 100) + " (%) vs Max(100 phiên)"
-    
+    try:
+        note_price = note_price + \
+            "{:.2f}".format(((price-np.max(prices_hist[1:]))/np.max(prices_hist[1:]))*100) + " (%) vs Max(100 phiên)"
+        print("Điểm 03")
+    except:
+        print('Lỗi tính ở điểm 03')
+        
     return [stock.upper(), n, price, vol, price_max, price_min, vol_max, 
             vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note, note_price]
 

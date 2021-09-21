@@ -6,7 +6,7 @@ Phân tích cổ phiếu <span style="color: green; font-size: 16; font-weight: 
 Giá hiện tại : {{price}} | Biến động: {{rate_price}} (%) (vs {{n}} phiên) | {{note_price}}<br/>
 Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (vs KLTB {{n}} phiên)<br />
 Giá trị giao dịch: {{money}} (tỷ) <br />
-{% if money < 10 %}
+{% if money < 10000000000 %} <!--so sánh với 10 tỷ-->
 {{money}}
 <span style="color: red; font-size: 16; font-weight: bolder;" ;>
     Giá trị thanh khoản quá kém <br>

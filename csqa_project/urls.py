@@ -6,7 +6,7 @@ from pages.views import aboutPageView, searchView
 from questions.views import (addComment, questionView, saveComment, update, updateQuestion, newView, 
                              answerView, doSearch, search, myCommentsView,
                             myQuestionsView, myAnswersView, questionVoteView, updateAnswer,saveAnswer,
-                            answerVoteView)
+                            answerVoteView, viewGraph)
 
 
 urlpatterns = [
@@ -16,6 +16,7 @@ urlpatterns = [
     path('leaderboard/', leaderboardView),
     #path('search/', searchView, name='search'),
     path('search/', search, name='search'),
+    path('graph/', viewGraph, name='viewGraph'),
     path('search/results/', doSearch),
     path('about/', aboutPageView),
     path('accounts/', include('allauth.urls')),

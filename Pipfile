@@ -16,6 +16,7 @@ lxml = "*"
 pandas = "*"
 html-table-extractor = "*"
 tabulate = "*"
+matplotlib = "*"
 
 [dev-packages]
 pylint = "*"

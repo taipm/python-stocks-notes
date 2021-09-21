@@ -9,6 +9,9 @@ from django.urls import reverse
 from main.models import (Comment, CommentForm, Question, Answer, QuestionForm, AnswerForm, CommentSerializer,
                         QuestionSerializer, AnswerSerializer)
 from django.core.paginator import Paginator
+import numpy as np
+import matplotlib.pyplot as plt
+from io import StringIO
 
 # vote_type could be 'upvote', 'downvote', or 'cancel_vote'
 def updateVote(user, target, vote_type, question_or_answer):
@@ -208,6 +211,26 @@ def saveAnswer(request, id):
 
     return HttpResponseRedirect('/')
 
+
+def return_graph():
+    x = np.arange(0, np.pi*3, .1)
+    y = np.sin(x)
+
+    fig = plt.figure()
+    plt.plot(x, y)
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
+
+def viewGraph(request):
+    data_graph = return_graph()
+    context = {'graph':data_graph}
+    return render(request, 'graph.html', context)
+    
 def search(request):
     "Search in question and answer with keyword"
     print('view search')

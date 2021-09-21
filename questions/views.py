@@ -259,7 +259,8 @@ def doSearch(request):
                                                        'mark': "{:.2f}".format(data[12]),
                                                        'pivots': data[13],
                                                        'note' : data[14],
-                                                       'note_price':data[15]})
+                                                       'note_price':data[15],
+                                                       'money':"{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

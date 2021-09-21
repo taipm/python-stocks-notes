@@ -51,14 +51,13 @@ def stock_analysis_result(stock, n):
     for i in range(0,len(prices_hist)-3):
         x = ((prices_hist[i]-prices_hist[i+1])/prices_hist[i+1])*100
         if(x >= 3):
+            note_pivot = ""
             print('Break price')
             y = vols_hist[i] / \
                 np.average([vols_hist[i], vols_hist[i+1], vols_hist[i+2]])
             if(y >= 1):
                 print("Break : " + str(i) + "(" + str(x) + "," + str(y) + ")")
                 mark_pivot = float("{:.2f}".format(x*y))
-                note_pivot = ""
-                
                 margin_from_pivot = float("{:.2f}".format(
                     np.sum(prices_margins_hist[0:i])))
                 
@@ -67,6 +66,8 @@ def stock_analysis_result(stock, n):
                     note_pivot = note_pivot + "] ==> Chú ý: Cực mạnh"
                 pivots.append(
                     [i, prices_hist[i], vols_hist[i], mark_pivot, note_pivot])
+            if(i<=5):
+                note = note + "\nLưu ý: Có điểm pivot rất gần"
     
     #Tính điểm #01: Sức mạnh (Giá, KL)
     price_avg_3 = np.average(prices[0:2])

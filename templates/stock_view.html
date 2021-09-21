@@ -3,8 +3,19 @@
 {% block content %}
 
 Phân tích cổ phiếu <span style="color: green; font-size: 16; font-weight: bolder;";>{{stock}}</span> trong {{ n }} phiên gần nhất: <br/>
-Giá hiện tại : {{price}} | Biến động: {{rate_price}} (so với {{n}} phiên) | {{note_price}}<br/>
-Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (so với TB {{n}} phiên)<br />
+Giá hiện tại : {{price}} | Biến động: {{rate_price}} (%) (vs {{n}} phiên) | {{note_price}}<br/>
+Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (vs KLTB {{n}} phiên)<br />
+Giá trị giao dịch: {{money}} (tỷ) <br />
+{% if money < 10 %}
+{{money}}
+<span style="color: red; font-size: 16; font-weight: bolder;" ;>
+    Giá trị thanh khoản quá kém <br>
+</span>
+{% else %}
+<span style="color: green; font-size: 16; font-weight: bolder;" ;>
+    Giá trị thanh khoản tốt <br>
+</span>
+{% endif %}
 Giá cao nhất: {{ price_max }} <br />
 Giá thấp nhất: {{price_min}} <br />
 Khối lượng cao nhất: {{vol_max}}<br />
@@ -23,7 +34,6 @@ Khối lượng trung bình: {{vol_avg}}<br />
     Đánh giá: <br>Điểm sức mạnh : {{mark}} <br>
     {{note|linebreaksbr}} <br />
 </p>
-
 
 {{ price_history|safe }}
 {% endblock %}

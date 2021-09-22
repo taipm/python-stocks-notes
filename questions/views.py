@@ -248,6 +248,7 @@ def doSearch(request):
     try:
         #Phân tích n = 10 phiên gần nhất
         data = stock_analysis_result(ask,10)
+        chart_path = '<img src="https://vip.cophieu68.vn/imagechart/candle/' + ask.lower() + '.png" alt="" title=" aaa" border="0">'
         if(len(data[9]) > 100):
             return render(request, 'stock_view.html', {'stock': data[0], 'n' : data[1], 'price':data[2], 'vol':data[3], 
                                                        'price_max': data[4], 'price_min': data[5],
@@ -260,7 +261,8 @@ def doSearch(request):
                                                        'pivots': data[13],
                                                        'note' : data[14],
                                                        'note_price':data[15],
-                                                       'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000))})
+                                                       'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)),
+                                                       'chart_path':chart_path})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

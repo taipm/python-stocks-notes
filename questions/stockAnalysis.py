@@ -102,9 +102,13 @@ def stock_analysis_result(stock, n):
         print("Điểm 03")
     except:
         print('Lỗi tính ở điểm 03')
-        
+    
+    #Tính 03: Sức mạnh giá trong phiên
+    margin_price_inday = ((df["CN"][0] - df["CN"][1])/df["CN"][1])*100
+    margin_price_today = ((prices[0] - prices[1])/prices[1])*100
+    
     return [stock.upper(), n, price, vol, price_max, price_min, vol_max, 
-            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note, note_price]
+            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note, note_price, margin_price_inday, margin_price_today]
 
 #def getMark(df):
     

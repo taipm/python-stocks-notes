@@ -3,7 +3,30 @@
 {% block content %}
 
 Phân tích cổ phiếu <span style="color: green; font-size: 16; font-weight: bolder;";>{{stock}}</span> trong {{ n }} phiên gần nhất: <br/>
-Giá hiện tại : {{price}} | Biến động: {{rate_price}} (%) (vs {{n}} phiên) | {{note_price}}<br/>
+Giá hiện tại : {{price}} ({{margin_price_today}} %) | Biến động: {{rate_price}} (%) (vs {{n}} phiên) | {{note_price}}<br/>
+
+{% if margin_price_today <= -5 %}
+<div style = "background-color: black; color: white; width: fit-content;">
+        CHÚ Ý:
+        <span style="color: red; font-size: 16; font-weight: bolder; background-color: white; width: fit-content;" ;>
+            CẢNH BÁO: Giá giảm sâu ==> [Nên cân nhắc THOÁT HÀNG]<br>
+        </span>
+    </div>
+{% elif margin_price_today >= 3  %}
+<span style="color: green; font-size: 16; font-weight: bolder;" ;>
+    LƯU Ý: Giá tăng tốt ==> [Xem xét dấu hiệu mua thêm]<br>
+</span>
+{% endif %}
+Biên độ dao động trong ngày: {{margin_price_inday}} (%) <br>
+{% if margin_price_inday >= 5 %}
+    <span style="color: green; font-size: 16; font-weight: bolder;" ;>
+        Biên độ dao động lớn ==> [Lưu ý sức bật của cổ phiếu]<br>
+    </span>
+{% else %}
+    <span style="color: red; font-size: 16; font-weight: bolder;" ;>
+        Biên độ dao động hẹp<br> 
+    </span>
+{% endif %}
 Khối lượng hiện tại: {{vol}} đạt {{ rate_vol }} (%) (vs KLTB {{n}} phiên)<br />
 Giá trị giao dịch: {{money}} (tỷ) <br />
 {% if money < 10 %} <!--so sánh với 10 tỷ-->

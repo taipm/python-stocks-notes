@@ -57,16 +57,13 @@ def importData(stock):
                     #print(row[0])
                     if(row[0].startswith('#')):
                       tablePrices.insert(
-                          i, [row[5], row[4], row[6], row[11], row[12]])
+                          i, [row[5], row[4], row[6], row[8], row[9], row[11], row[12]])
                       i = i+1
-                    # tablePrices.insert(
-                    #     i, [row[5], row[4], row[6], row[11], row[12]])
-                    # i = i+1
 
                 #Thêm vào dữ liệu của phiên gần nhất (do cophieu68 thiếu dữ liệu)
 
                 df = pd.DataFrame(
-                    tablePrices, columns=['DC', '%', 'KL', 'NN Mua', 'NN Ban'])
+                    tablePrices, columns=['DC', '%', 'KL', 'CN','TN', 'NN Mua', 'NN Ban'])
 
                 df = df.replace(',', '', regex=True)
                 df = df.apply(pd.to_numeric, errors='ignore')

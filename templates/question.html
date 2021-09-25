@@ -6,7 +6,7 @@
 <div id="question">
 <h5>{{question.title}}</h5>
 <div class="answer-text">
-  {{question.body}}
+  {{question.body|safe}}
 </div>
 <!-- <div style="margin-bottom: 5px; font-size: 17px; white-space: break-spaces">{{question.body | urlize }}</div> -->
 <div class='text-secondary' style="font-size: 14px">
@@ -32,21 +32,20 @@
         style="margin-right: 6px; margin-left: 6px;">
         |</span></span>{{ a.x_ago }}
         | <a href="/answer/{{a.id}}/update">edit</a>
+        | <a href="/answer/{{a.id}}/viewAnswer/">view</a>
+        | <a href="/answer/{{a.id}}/addComment">comment(+)</a>
     </div>
     <div class="answer-text">
-      {{a.text}}
+      {{a.text|safe}}
     </div>
-    <div class='text-secondary' style="font-size: 14px">
-      {% for a in a.comments %}
-      <hr class='answer-hr' />
-      Comments: {{a.num_comments}}
-      {% for c in a.comments %}
-      <div class='text-secondary' style="font-size: 13px; margin-left: 5px">
-        {{c.text}}
+    {% for c in comments %}
+    {% if c.answer_id == a.id %}
+      <div class='answer-text' style="font-size: 13px">
+        <hr class='answer-hr' />
+        {{c.text|safe}}
       </div>
-      {% endfor %}
-      {% endfor %}
-    </div>
+    {% endif %}
+    {% endfor %}
   {% endfor %}
 </div>
 

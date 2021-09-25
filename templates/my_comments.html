@@ -4,7 +4,7 @@
 <div class="answers">
 {% for comment in page_obj %}
     <p style="margin-bottom: 1">
-        <a href="/question/{{answer.question.id}}">{{ comment.answer.text }} <span class="text-secondary num-answers">({{ comment.answer.num_comments }} comments)</span></a>
+        <a href="/answer/{{comment.answer.id}}/viewAnswer/">{{ comment.answer.text }} <span class="text-secondary num-answers">({{ comment.answer.num_comments }} comments)</span></a>
     </p>
     <div class='answer-block'>
       <div class='text-secondary' style="font-size: 14px">{{ comment.user }}<span style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ comment.x_ago }}</div>

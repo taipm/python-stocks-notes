@@ -12,8 +12,10 @@
         | <a href="/answer/{{answer.id}}/update">edit</a>
       </div>
       <div style="margin-bottom: 20px">{{ answer.text | urlize }}</div>
-      <div class='text-secondary' style="font-size: 14px">Comments ({{answer.num_comments}}) | <a href="/answer/{{answer.id}}/addComment">comment(+)</a><span style="margin-right: 6px; margin-left: 6px;">
-      </span></div>
+      <div class='text-secondary' style="font-size: 14px">Comments ({{answer.num_comments}}) 
+        | <a href="/answer/{{answer.id}}/addComment">comment(+)</a>
+        <span style="margin-right: 6px; margin-left: 6px;"></span>
+      </div>
       {% for c in answer.comments %}
         <div class='answer-block'>
           <div class='text-secondary' style="font-size: 14px">{{ c.user }}<span

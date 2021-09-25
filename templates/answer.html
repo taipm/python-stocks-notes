@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block content %}
+    <h5>{{question.title}}</h5>
+    <div class="answer-text">
+      {{answer.text}}
+    </div>
+    <!-- <div style="margin-bottom: 5px; font-size: 17px; white-space: break-spaces">{{question.body | urlize }}</div> -->
+    <div class='text-secondary' style="font-size: 14px">
+      posted by {{ answer.user }}</span><span class="separator">|</span>{{ answer.x_ago }}
+      <!-- {% if not asked_by_user %}
+      <span class="separator">|</span>
+      <a href="javascript:void(0)" v-on:click="vote('upvote', upvoted, '/question/{{question.id}}/vote')"
+        :class="[[upvoted ? 'done' : '']]" class="text-secondary">upvote</a>
+      <span class="separator">|</span>
+      <a href="javascript:void(0)" v-on:click="vote('downvote', downvoted, '/question/{{question.id}}/vote')"
+        :class="[[downvoted ? 'done' : '']]" class="text-secondary">downvote</a>
+      {% endif %}
+      <span class="separator">|</span>
+      <span>[[points]] points</span>
+      <span class="separator">|</span>
+      <span>Answers ({{question.num_answers}})</span>
+      <span class="separator">|</span>
+      <a href="/question/{{question.id}}/updateQuestion">Update</a> -->
+    </div>
+    <div class='text-secondary' style="font-size: 14px">Comments ({{answer.num_comments}})
+      | <a href="/answer/{{answer.id}}/addComment">comment(+)</a>
+      <span style="margin-right: 6px; margin-left: 6px;"></span>
+    </div>
+    <div class='text-secondary' style="font-size: 14px">
+      {% for c in answer.comments %}
+        <hr class='answer-hr' />
+        Comments: {{answer.num_comments}}
+        {% for c in answer.comments %}
+          <div class='answer-text' style="font-size: 13px; margin-left: 5px">
+            {{c.text|safe}}
+          </div>
+        {% endfor %}
+      {% endfor %}
+    </div>
+{% endblock %}

@@ -64,6 +64,10 @@ def questionView(request, id):
     question = Question.objects.get(pk=id)
     answers = Answer.objects.filter(question_id=id).order_by('created')
     answers_serialized = AnswerSerializer(answers, many=True).data
+    comments = []
+    for answer in answers:
+        comments.extend(Comment.objects.filter(answer_id=answer.id))
+        #print(comments)
     for answer in answers_serialized:
         answer['upvoted'] = False
         answer['downvoted'] = False
@@ -88,7 +92,7 @@ def questionView(request, id):
     elif current_user.id == question.user_id:
         asked_by_user = True
         
-    context = {'question': question, 'answers': answers,
+    context = {'question': question, 'answers': answers, 'comments':comments,
                'current_user': current_user, 'points': question.points,
                'upvoted': upvoted, 'downvoted': downvoted,
                'asked_by_user': asked_by_user,
@@ -184,7 +188,13 @@ def updateQuestion(request, id):
     return render(request, 'update.html',
                   {'current_user': current_user, 'question': question})
         
-
+def viewAnswer(request, id):
+    current_user = request.user
+    answer = Answer.objects.get(pk=id)  # question_id
+    question = Question.objects.get(pk=answer.question_id)
+    return render(request, 'answer.html',
+                  {'current_user': current_user, 'answer': answer, 'question':question})
+    
 def updateAnswer(request, id):
     current_user = request.user
     answer = Answer.objects.get(pk=id)

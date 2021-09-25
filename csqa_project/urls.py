@@ -5,8 +5,8 @@ from main.views import homeFeedView, testView, leaderboardView
 from pages.views import aboutPageView, searchView
 from questions.views import (addComment, questionView, saveComment, update, updateQuestion, newView, 
                              answerView, doSearch, search, myCommentsView,
-                            myQuestionsView, myAnswersView, questionVoteView, updateAnswer,saveAnswer,
-                            answerVoteView, viewGraph)
+                            myQuestionsView, myAnswersView, questionVoteView, 
+                            updateAnswer, saveAnswer, answerVoteView, viewAnswer, viewGraph)
 
 
 urlpatterns = [
@@ -25,6 +25,7 @@ urlpatterns = [
     path('answer/<int:id>/vote', answerVoteView),
     path('question/<int:id>/answer', answerView),
     path('answer/<int:id>/addComment', addComment),
+    path('answer/<int:id>/viewAnswer/', viewAnswer),
     path('comment/<int:id>/saveComment/', saveComment),
     path('answer/<int:id>/update', updateAnswer),
     path('answer/<int:id>/saveAnswer/', saveAnswer),

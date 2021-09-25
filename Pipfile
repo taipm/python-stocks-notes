@@ -18,6 +18,8 @@ html-table-extractor = "*"
 tabulate = "*"
 matplotlib = "*"
 python-telegram-bot = "*"
+apscheduler = "*"
+pytz = "*"
 
 [dev-packages]
 pylint = "*"

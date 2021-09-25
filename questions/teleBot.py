@@ -1,5 +1,4 @@
 import telegram
-import random
 
 chat_id = "1133501778"
 token = "1408339597:AAEd1i444kfJa2gv1FprwirR6wTkhsWRBpo"

@@ -46,7 +46,6 @@ INSTALLED_APPS = [
     'pages.apps.PagesConfig',
     'main.apps.MainConfig',
     'users.apps.UsersConfig',
-    
     'django.contrib.sites', # for allauth
     'allauth',
     'allauth.account',

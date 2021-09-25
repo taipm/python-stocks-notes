@@ -34,6 +34,10 @@
           <div class='answer-text' style="font-size: 13px; margin-left: 5px">
             {{c.text|safe}}
           </div>
+          <div class='text-secondary' style="font-size: 14px">
+            <a href="/comment/{{c.id}}/viewUpdateComment">edit</a>
+            <span style="margin-right: 6px; margin-left: 6px;"></span>
+          </div>
         {% endfor %}
       {% endfor %}
     </div>

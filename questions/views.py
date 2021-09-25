@@ -295,6 +295,37 @@ def addComment(request, id):
     return render(request, 'addComment.html', context)
 
 
+def viewUpdateComment(request, id):
+    current_user = request.user
+    comment = Comment.objects.get(pk=id)
+
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    context = {'comment': comment,
+               'current_user': current_user}
+    return render(request, 'updateComment.html', context)
+
+
+def updateComment(request, id):
+    current_user = request.user
+    comment = Comment.objects.get(pk=id)
+
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    if request.method != 'POST':
+        render(request, 'updateComment.html', {'current_user': current_user})
+
+    form = CommentForm(request.POST)
+    if not form.is_valid() or current_user.points < 0:
+        return render(request, 'updateComment.html', {'current_user': current_user})
+
+    comment.text = form.data['text']
+    comment.save()
+
+    return HttpResponseRedirect('/')
+
 def saveComment(request, id):
     current_user = request.user
     print("save cooomment ..")

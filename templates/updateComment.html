@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block content %}
+    {% if current_user.points > -1 %}
+    <form action="/comment/{{comment.id}}/updateComment/" method="post" >
+        {% csrf_token %}
+        <div class="form-group">
+          <label for="title">Details</label>
+          <textarea class="form-control" id="text" name="text" rows="3" placeholder="{% block bodyFormData %}{{comment.text}}{% endblock %}">{{comment.text}}</textarea></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Submit</button>
+    </form>
+    {% else %}
+    <p>Sorry, you need to have at least 0 point to ask a question.</p>
+    <p>Currently, you have {{ current_user.points }} points.</p>
+    <p>Your points will increase when you answer <a href="/">someone else's question</a> and another user upvotes your answer.</p>
+    <p>
+      Alternatively, you can share CSQA on Facebook or Twitter to earn a point.
+      For more info about it, please take a look at <a href="https://csqa.io/question/250/">this thread.</a>
+    </p>
+    {% endif %}
+{% endblock %}

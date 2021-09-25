@@ -4,7 +4,7 @@ from django.urls import path, include
 from main.views import homeFeedView, testView, leaderboardView
 from pages.views import aboutPageView, searchView
 from questions.views import (addComment, questionView, saveComment, update, updateQuestion, newView, 
-                             answerView, doSearch, search, myCommentsView,
+                            answerView, doSearch, search, myCommentsView, viewUpdateComment, updateComment,
                             myQuestionsView, myAnswersView, questionVoteView, 
                             updateAnswer, saveAnswer, answerVoteView, viewAnswer, viewGraph)
 
@@ -27,6 +27,8 @@ urlpatterns = [
     path('answer/<int:id>/addComment', addComment),
     path('answer/<int:id>/viewAnswer/', viewAnswer),
     path('comment/<int:id>/saveComment/', saveComment),
+    path('comment/<int:id>/viewUpdateComment/', viewUpdateComment),
+    path('comment/<int:id>/updateComment/', updateComment),
     path('answer/<int:id>/update', updateAnswer),
     path('answer/<int:id>/saveAnswer/', saveAnswer),
     path('question/new/', newView),

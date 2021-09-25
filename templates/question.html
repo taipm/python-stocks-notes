@@ -44,6 +44,10 @@
         <hr class='answer-hr' />
         {{c.text|safe}}
       </div>
+      <div class='text-secondary' style="font-size: 14px">{{ c.user }}<span style="margin-right: 6px; margin-left: 6px;">
+        |</span></span>{{ c.x_ago }}
+        | <a href="/comment/{{c.id}}/viewUpdateComment">edit</a>
+      </div>
     {% endif %}
     {% endfor %}
   {% endfor %}

@@ -17,6 +17,7 @@ pandas = "*"
 html-table-extractor = "*"
 tabulate = "*"
 matplotlib = "*"
+python-telegram-bot = "*"
 
 [dev-packages]
 pylint = "*"

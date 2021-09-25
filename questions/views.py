@@ -12,6 +12,7 @@ from django.core.paginator import Paginator
 import numpy as np
 import matplotlib.pyplot as plt
 from io import StringIO
+import questions.teleBot as Bot
 
 # vote_type could be 'upvote', 'downvote', or 'cancel_vote'
 def updateVote(user, target, vote_type, question_or_answer):
@@ -261,6 +262,7 @@ def doSearch(request):
         chart_path = '<img src="https://vip.cophieu68.vn/imagechart/candle/' + \
             ask.lower() + '.png" alt="" title=" aaa" border="0">'
         if(len(data[9]) > 100):
+            Bot.send_message("StockNotes | " + data[0] + " | " +  str(data[2]))
             return render(request, 'stock_view.html', {'stock': data[0], 'n' : data[1], 'price':data[2], 'vol':data[3], 
                                                        'price_max': data[4], 'price_min': data[5],
                                                        'vol_max': data[6], 'vol_min': data[7], 
@@ -321,8 +323,12 @@ def updateComment(request, id):
     if not form.is_valid() or current_user.points < 0:
         return render(request, 'updateComment.html', {'current_user': current_user})
 
-    comment.text = form.data['text']
-    comment.save()
+    try:
+        comment.text = form.data['text']
+        comment.save()
+        Bot.send_message("StockNotes\nComment: " + comment.text)
+    except:
+        Bot.send_message("StockNotes: Có lỗi xảy ra khi cập nhật Comment")
 
     return HttpResponseRedirect('/')
 

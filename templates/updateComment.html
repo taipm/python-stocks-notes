@@ -5,7 +5,7 @@
         {% csrf_token %}
         <div class="form-group">
           <label for="title">Details</label>
-          <textarea class="form-control" id="text" name="text" rows="3" placeholder="{% block bodyFormData %}{{comment.text}}{% endblock %}">{{comment.text}}</textarea></textarea>
+          <textarea class="form-control" id="text" name="text" rows="10" placeholder="{% block bodyFormData %}{{comment.text}}{% endblock %}">{{comment.text}}</textarea></textarea>
         </div>
         <button type="submit" class="btn btn-primary mb-2">Submit</button>
     </form>

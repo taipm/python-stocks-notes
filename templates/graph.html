@@ -1,5 +1,11 @@
 {% extends "base.html" %}
-
 {% block content %}
-{{graph|safe}}
+
+<!-- {{graph|safe}} -->
+{% for entry in data %}
+{{entry|safe}}
+{% endfor %}
+<!-- {{prices|safe}}
+{{str_html|safe}} -->
+
 {% endblock %}

@@ -9,6 +9,9 @@ from bs4 import BeautifulSoup
 import urllib.request
 from requests.packages.urllib3.exceptions import InsecureRequestWarning
 requests.packages.urllib3.disable_warnings(InsecureRequestWarning)
+from urllib.request import urlopen
+import json
+import pandas as pd 
 
 def buildDetailUrl(stock):
     url = 'https://www.cophieu68.vn/snapshot.php?id=' + stock
@@ -26,6 +29,80 @@ def buildSoup(url):
    soup = BeautifulSoup(page, 'html.parser')
    return soup.encode("utf-8")
 
+def getStocks():
+  url = 'https://vuichungkhoan.blogspot.com/2020/11/danh-muc-quan-trong.html'
+  response = requests.get(url, verify=False)
+  soup = BeautifulSoup(response.text, "html.parser")
+  html = soup.findAll(
+      'div', {"class": "post-body entry-content float-container"})[0].get_text()
+  if(len(html) == 0):
+    print("Mã cổ phiếu sai hoặc không lấy được thông tin cổ phiếu")
+    return -1
+  else:
+    try:
+      stocks = html.split(', ')
+      items = []
+      for _stock in stocks:
+        if ',' in _stock:
+          items.append(_stock.split(',')[0].strip())
+          items.append(_stock.split(',')[1].strip())
+        else:
+          items.append(_stock.strip().upper())
+      items = list(items)
+      items.sort()
+      return items
+    except:
+      print("Không lấy được dữ liệu")
+      return -1
+  
+def getStockPrices(stock):
+  url = "https://stock.kdtv4.vn/api/app/company/by-stock-code?stockCode=" + stock.upper()
+
+  # store the response of URL
+  response = urlopen(url)
+
+  data_json = json.loads(response.read())
+
+  df = pd.json_normalize(data_json['companyStocks'])
+  df = df[['stockCode', 'giaTriTangGiam', 'phanTramTangGiam', 'dongCua', 'khoiLuong', 'moCua',
+           'caoNhat', 'thapNhat', 'giaoDichThoaThuan', 'nuocNgoaiMua', 'nuocNgoaiBan', 'postedDate']]
+  df.sort_values(["postedDate"], ascending=False)
+
+  df['Stock'] = df['stockCode']
+  del df['stockCode']
+
+  df['+/-'] = df['giaTriTangGiam']
+  del df['giaTriTangGiam']
+
+  df['%'] = df['phanTramTangGiam']
+  del df['phanTramTangGiam']
+
+  df['DC'] = df['dongCua']
+  del df['dongCua']
+
+  df['KL'] = df['khoiLuong']
+  del df['khoiLuong']
+
+  df['MC'] = df['moCua']
+  del df['moCua']
+
+  df['CN'] = df['caoNhat']
+  del df['caoNhat']
+
+  df['TN'] = df['thapNhat']
+  del df['thapNhat']
+
+  df['NN Mua'] = df['nuocNgoaiMua']
+  del df['nuocNgoaiMua']
+
+  df['NN Ban'] = df['nuocNgoaiBan']
+  del df['nuocNgoaiBan']
+
+  df['TT'] = df['giaoDichThoaThuan']
+  del df['giaoDichThoaThuan']
+  #print(df)
+
+  return df
 
 def importData(stock):
     #print(stock)

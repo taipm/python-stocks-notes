@@ -1,5 +1,6 @@
+from django.db import models
 from questions.stockAnalysis import stock_analysis_result
-from questions.crawler import getDetail, importData
+from questions.crawler import getDetail, importData, getStockPrices, getStocks
 from typing import Text
 from django.forms.forms import Form
 from pages.views import searchView
@@ -237,9 +238,21 @@ def return_graph():
     data = imgdata.getvalue()
     return data
 
+
 def viewGraph(request):
     data_graph = return_graph()
-    context = {'graph':data_graph}
+    stocks = getStocks()
+    data = []
+    for stock in stocks:
+        try:
+            stock_prices = getStockPrices(stock)
+            data.append(stock_prices.to_html())
+        except:
+            Bot.send_message("StockNote| " + stock + " chưa có trong Crawler")
+    #html = data[0].to_html()
+    context = {'graph':data_graph,'data':data}
+    #context = {'graph':data_graph,'data':data,'str_html':html}
+    
     return render(request, 'graph.html', context)
     
 def search(request):

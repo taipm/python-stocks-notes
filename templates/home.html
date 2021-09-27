@@ -3,7 +3,7 @@
 <div style="border-style:dashed; padding: 1px;">
     {% for comment in comments %}
     <p>
-        <a href="/comment/{{comment.id}}">{{comment.text|safe}} </a>
+        <a href="/comment/{{comment.id}}/">{{comment.text|safe}} </a>
     </p>
     {% endfor %}
 </div>

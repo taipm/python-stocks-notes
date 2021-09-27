@@ -1,8 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
-<div style="border-style:dashed; padding: 1px;">
+<div class="answer-text" style="border-style:dashed; padding: 1px;">
     {% for comment in comments %}
-    <a href="/comment/{{comment.id}}/"> detail </a>
+    <a href="/comment/{{comment.id}}/"> detail </a> <br />
     {{comment.text|safe}}
     {% endfor %}
 </div>

@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
+<div class="answer-text">
   {{ comment.text | safe }}
+</div>
+  
     <!-- {% if current_user.points > -1 %}
     <form action="/comment/{{comment.id}}/updateComment/" method="post" >
         {% csrf_token %}

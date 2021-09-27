@@ -1,5 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
+<div style="border-style:dashed; padding: 1px;">
+    {% for comment in comments %}
+    <p>
+        <a href="/comment/{{comment.id}}">{{comment.text}} </a>
+    </p>
+    {% endfor %}
+</div>
 
 {% for question in page_obj %}
     <p>
@@ -9,7 +16,7 @@
 <div class="pagination" style="margin-bottom: 3; margin-top: 10">
     <span class="step-links">
         {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}">&laquo; previous</a>
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo; previous</a>
         {% endif %}
 
         <span class="current text-secondary">
@@ -17,8 +24,17 @@
         </span>
 
         {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">next &raquo;</a>
+        <a href="?page={{ page_obj.next_page_number }}">next &raquo;</a>
         {% endif %}
     </span>
+
 </div>
+<!-- <div style="width: 30%;float: right;">
+    {% for comment in comments %}
+    <p>
+        <a href="/comment/{{comment.id}}">{{comment.text}} </a>
+    </p>
+    {% endfor %}
+</div> -->
+
 {% endblock %}

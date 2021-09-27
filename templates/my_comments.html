@@ -8,7 +8,7 @@
     </p>
     <div class='answer-block'>
       <div class='text-secondary' style="font-size: 14px">{{ comment.user }}<span style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ comment.x_ago }}</div>
-      <div style="margin-bottom: 20px">{{ comment.text | safe}}</div>
+      {{ comment.text | safe}}
       <div class='text-secondary' style="margin-bottom: 20px;">
         <a href="/answer/{{answer.id}}/update">edit</a> | <a href="/answer/{{answer.id}}/addComment">comment(+)</a>
       </div>

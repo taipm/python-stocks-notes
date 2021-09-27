@@ -309,6 +309,16 @@ def addComment(request, id):
                'current_user': current_user}
     return render(request, 'addComment.html', context)
 
+def viewComment(request, id):
+    current_user = request.user
+    comment = Comment.objects.get(pk=id)
+
+    if not current_user.is_authenticated:
+        return HttpResponseRedirect(reverse('account_signup'))
+
+    context = {'comment': comment,
+               'current_user': current_user}
+    return render(request, 'comment.html', context)
 
 def viewUpdateComment(request, id):
     current_user = request.user

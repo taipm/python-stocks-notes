@@ -223,6 +223,23 @@ def saveAnswer(request, id):
 
     return HttpResponseRedirect('/')
 
+def graph_money(y, title):
+    print('Đang chuẩn bị vẽ đồ thị')
+    x = np.arange(100)
+    print(x)
+    #y = m
+    print(y)
+
+    fig = plt.figure()
+    plt.plot(x, y)
+    plt.title(title + " : Biểu đồ dòng tiền")
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
 
 def return_graph():
     x = np.arange(0, np.pi*3, .1)
@@ -272,8 +289,14 @@ def doSearch(request):
     try:
         #Phân tích n = 10 phiên gần nhất
         data = stock_analysis_result(ask,10)
+        df = data[18]
+        df_money = (df["DC"]*df["KL"]*10000*100)/1000000000
+        chart_money = graph_money(df_money, data[0])
+        print(chart_money)
+        
         chart_path = '<img src="https://vip.cophieu68.vn/imagechart/candle/' + \
             ask.lower() + '.png" alt="" title=" aaa" border="0">'
+            
         if(len(data[9]) > 100):
             Bot.send_message("StockNotes | " + data[0] + " | " +  str(data[2]))
             return render(request, 'stock_view.html', {'stock': data[0], 'n' : data[1], 'price':data[2], 'vol':data[3], 
@@ -290,7 +313,8 @@ def doSearch(request):
                                                        'margin_price_inday': float("{:.2f}".format(data[16])),
                                                        'margin_price_today': float("{:.2f}".format(data[17])),
                                                        'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)),
-                                                       'chart_path':chart_path})
+                                                       'chart_path':chart_path,
+                                                       'graph' : chart_money})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

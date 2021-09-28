@@ -108,7 +108,8 @@ def stock_analysis_result(stock, n):
     margin_price_today = ((prices[0] - prices[1])/prices[1])*100
     
     return [stock.upper(), n, price, vol, price_max, price_min, vol_max, 
-            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, note, note_price, margin_price_inday, margin_price_today]
+            vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, 
+            note, note_price, margin_price_inday, margin_price_today, df_data]
 
 #def getMark(df):
     

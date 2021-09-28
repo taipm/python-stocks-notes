@@ -36,12 +36,12 @@ Giá trị giao dịch: {{money}} (tỷ) <br />
             Giá trị thanh khoản quá kém <br>
         </span>
     </div>
-    
 {% else %}
     <span style="color: green; font-size: 16; font-weight: bolder;" ;>
         Giá trị thanh khoản tốt <br>
     </span>
 {% endif %}
+{{graph|safe}}
 Giá cao nhất: {{ price_max }} <br />
 Giá thấp nhất: {{price_min}} <br />
 Khối lượng cao nhất: {{vol_max}}<br />

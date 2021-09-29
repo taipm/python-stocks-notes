@@ -223,15 +223,13 @@ def saveAnswer(request, id):
 
     return HttpResponseRedirect('/')
 
-def graph_money(y, title):
+def graph_money(y, nn, title):
     print('Đang chuẩn bị vẽ đồ thị')
     x = np.arange(100)
-    print(x)
-    #y = m
-    print(y)
 
     fig = plt.figure()
     plt.plot(x, y)
+    plt.plot(x, nn)
     plt.title(title + " : Biểu đồ dòng tiền")
 
     imgdata = StringIO()
@@ -241,6 +239,44 @@ def graph_money(y, title):
     data = imgdata.getvalue()
     return data
 
+
+def graph_prices(prices, title):
+    print('Đang chuẩn bị vẽ đồ thị')
+    x = np.arange(100)
+
+    fig = plt.figure()
+    plt.plot(x, prices)
+    plt.title(title + " : Biểu đồ giá")
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
+
+def graph_money_with_avg(y, title):
+    print('Đang chuẩn bị vẽ đồ thị')
+    x = np.arange(100)
+    
+    fig = plt.figure()
+    plt.title(title + " : Biểu đồ dòng tiền")
+    plt.plot(x, y)
+   
+    #Single moving average in pandas
+    df_sma = y.rolling(window=4).mean()
+    plt.plot(x, df_sma, label= "sma(4)")
+    df_sma_5 = y.rolling(window=5).mean()
+    plt.plot(x, df_sma_5, label= "sma(5)")
+    df_sma_10 = y.rolling(window=10).mean()
+    plt.plot(x, df_sma_10, label= "sma(10)")
+
+    imgdata = StringIO()
+    fig.savefig(imgdata, format='svg')
+    imgdata.seek(0)
+
+    data = imgdata.getvalue()
+    return data
 def return_graph():
     x = np.arange(0, np.pi*3, .1)
     y = np.sin(x)
@@ -290,9 +326,14 @@ def doSearch(request):
         #Phân tích n = 10 phiên gần nhất
         data = stock_analysis_result(ask,10)
         df = data[18]
-        df_money = (df["DC"]*df["KL"]*10000*100)/1000000000
-        chart_money = graph_money(df_money, data[0])
-        print(chart_money)
+        df_money = (df["DC"]*df["KL"]*10000*100)/1000000000 #Tính theo đơn vị chục tỷ
+        df_nn_money = (((df["NN Mua"]-df["NN Ban"])*df["DC"])
+                       * 10000*100)/1000000000  # Tính theo đơn vị chục tỷ
+        print(df_nn_money)
+        chart_money = graph_money(df_money, df_nn_money,data[0])
+        chart_prices = graph_prices(df['DC'], data[0])
+        chart_money2 = graph_money_with_avg(df_money, data[0])
+        #print(chart_money)
         
         chart_path = '<img src="https://vip.cophieu68.vn/imagechart/candle/' + \
             ask.lower() + '.png" alt="" title=" aaa" border="0">'
@@ -314,7 +355,9 @@ def doSearch(request):
                                                        'margin_price_today': float("{:.2f}".format(data[17])),
                                                        'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)),
                                                        'chart_path':chart_path,
-                                                       'graph' : chart_money})
+                                                       'graph' : chart_money,
+                                                       'graph_prices' : chart_prices,
+                                                       'graph2' : chart_money2})
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

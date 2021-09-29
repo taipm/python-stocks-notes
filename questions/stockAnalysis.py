@@ -9,6 +9,8 @@ def stock_analysis_result(stock, n):
     prices_hist = df['DC'] #Để tìm điểm pivots
     prices_margins_hist = df['%']  # Để tìm điểm pivots
     vols_hist = df['KL']  # Để tìm điểm pivots
+    
+    #nn_hist = (df['NN Mua'] - df['NN Bán'])
     data_hist = df.to_html()
     
     df = df.head(n+1)

@@ -353,11 +353,17 @@ def doSearch(request):
                                                        'note_price':data[15],
                                                        'margin_price_inday': float("{:.2f}".format(data[16])),
                                                        'margin_price_today': float("{:.2f}".format(data[17])),
+                                                       'count_giam': data[19],
+                                                       'margin_giam': float("{:.2f}".format(data[20])),
+                                                       'count_tang': data[21],
+                                                       'margin_tang': float("{:.2f}".format(data[22])),
                                                        'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)),
                                                        'chart_path':chart_path,
                                                        'graph' : chart_money,
                                                        'graph_prices' : chart_prices,
-                                                       'graph2' : chart_money2})
+                                                       'graph2' : chart_money2,
+                                                       
+                                                       })
     except:
         questions = Question.objects.filter(title__contains=ask)
         return render(request, 'my_questions.html',{'questions': questions})

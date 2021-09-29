@@ -109,9 +109,27 @@ def stock_analysis_result(stock, n):
     margin_price_inday = ((df["CN"][0] - df["CN"][1])/df["CN"][1])*100
     margin_price_today = ((prices[0] - prices[1])/prices[1])*100
     
+    #Tính 04: Số phiên tăng/giảm
+    count_tang = 0
+    margin_tang = 0 #Tổng giá trị tăng trong 100 phiên
+    count_giam = 0
+    margin_giam = 0 #Tổng giá trị giảm trong 100 phiên
+    for i in prices_margins_hist[0:20]:
+        if(i > 0):
+            count_tang = count_tang + 1
+            margin_tang = margin_tang + i
+        elif(i < 0):
+            count_giam = count_giam + 1
+            margin_giam = margin_giam + i
+    print("Số phiên tăng: " + str(count_tang))
+    print("Số phiên giảm: " + str(count_giam))
+    
     return [stock.upper(), n, price, vol, price_max, price_min, vol_max, 
             vol_min, vol_avg, data_hist, rate_price, rate_vol, mark, pivots, 
-            note, note_price, margin_price_inday, margin_price_today, df_data]
+            note, note_price, margin_price_inday, margin_price_today, df_data, 
+            count_giam, margin_giam, count_tang, margin_tang]
 
 #def getMark(df):
     
+
+#stock_analysis_result("CTG",10)

@@ -1,6 +1,8 @@
 from django.db import models
+from questions.marketAnalysis import market_analysis_result
 from questions.stockAnalysis import stock_analysis_result
 from questions.crawler import getDetail, importData, getStockPrices, getStocks
+from questions.marketData import getAllStockPrices
 from typing import Text
 from django.forms.forms import Form
 from pages.views import searchView
@@ -307,7 +309,16 @@ def viewGraph(request):
     #context = {'graph':data_graph,'data':data,'str_html':html}
     
     return render(request, 'graph.html', context)
-    
+
+
+def viewMarket(request):
+    data = getAllStockPrices()
+    market_info = market_analysis_result()
+    #market_info
+    #01 - Vuot dinh
+    context = {'data':market_info.to_html()}
+    return render(request, 'market.html', context)
+
 def search(request):
     "Search in question and answer with keyword"
     print('view search')

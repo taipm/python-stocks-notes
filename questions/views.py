@@ -353,9 +353,9 @@ def doSearch(request):
         df_nn_money = (((df["NN Mua"]-df["NN Ban"])*df["DC"])
                        * 10000*100)/1000000000  # Tính theo đơn vị chục tỷ
         print(df_nn_money)
-        chart_money = graph_money(df_money, df_nn_money,data[0])
-        chart_prices = graph_prices(df['DC'], data[0])
-        chart_money2 = graph_money_with_avg(df_money, data[0])
+        #chart_money = graph_money(df_money, df_nn_money,data[0])
+        #chart_prices = graph_prices(df['DC'], data[0])
+        #chart_money2 = graph_money_with_avg(df_money, data[0])
         #print(chart_money)
         
         chart_path = '<img src="https://vip.cophieu68.vn/imagechart/candle/' + \
@@ -382,9 +382,9 @@ def doSearch(request):
                                                        'margin_tang': float("{:.2f}".format(data[22])),
                                                        'money':float("{:.2f}".format((data[2]*data[3]*10000*100)/1000000000)),
                                                        'chart_path':chart_path,
-                                                       'graph' : chart_money,
-                                                       'graph_prices' : chart_prices,
-                                                       'graph2' : chart_money2,
+                                                       #'graph' : chart_money,
+                                                       #'graph_prices' : chart_prices,
+                                                       #'graph2' : chart_money2,
                                                        
                                                        })
     except:

@@ -1,4 +1,5 @@
 from django.db import models
+from questions.Stocks import STOCKS, get_stock_data_from_api
 from questions.marketAnalysis import market_analysis_result
 from questions.stockAnalysis import stock_analysis_result
 from questions.crawler import getDetail, importData, getStockPrices, getStocks
@@ -95,7 +96,18 @@ def questionView(request, id):
         downvoted = True
     elif current_user.id == question.user_id:
         asked_by_user = True
-        
+    
+    print(question.title)
+    my_note = ""
+    stocks = STOCKS.split(",")
+    print(stocks)
+    if str(question.title) in stocks:
+        data = get_stock_data_from_api(question.title)
+        html_content = data.to_html()
+        print(data)
+        my_note = my_note + " là mã cổ phiếu yêu thích "
+    #question.title = question.title
+    question.body = html_content
     context = {'question': question, 'answers': answers, 'comments':comments,
                'current_user': current_user, 'points': question.points,
                'upvoted': upvoted, 'downvoted': downvoted,

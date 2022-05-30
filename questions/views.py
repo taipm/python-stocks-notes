@@ -18,6 +18,9 @@ import matplotlib.pyplot as plt
 from io import StringIO
 import questions.teleBot as Bot
 
+import matplotlib
+matplotlib.use('TkAgg')
+
 # vote_type could be 'upvote', 'downvote', or 'cancel_vote'
 def updateVote(user, target, vote_type, question_or_answer):
     if question_or_answer == 'question':
@@ -108,6 +111,8 @@ def questionView(request, id):
         my_note = my_note + " là mã cổ phiếu yêu thích "
     #question.title = question.title
     question.body = html_content
+    html_graph = data.plot(x='Close',y='Volume',kind = 'scatter')
+    html_content = html_content + html_graph
     context = {'question': question, 'answers': answers, 'comments':comments,
                'current_user': current_user, 'points': question.points,
                'upvoted': upvoted, 'downvoted': downvoted,

@@ -7,10 +7,18 @@
         <link rel="stylesheet" href="{% static 'style.css' %}">
         <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+        <link href=”http://cdn.pydata.org/bokeh/release/bokeh-2.3.2.min.css" rel=”stylesheet” type=”text/css”>
+        <link href=”http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.3.2.min.css" rel=”stylesheet” type=”text/css”>
         <!-- development version, includes helpful console warnings -->
         <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
         <title>{% block title %}StockNotes - Ghi chú về chứng khoán{% endblock %}</title>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-2.3.2.min.js"></script>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-widgets-2.3.2.min.js"></script>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-tables-2.3.2.min.js"></script>
+        <script src="https://cdn.bokeh.org/bokeh/release/bokeh-api-2.3.2.min.js"></script>
+        {{script| safe}}
     </head>
+
     <body class="bg-light">
         <div class="container" style="max-width:700">
             <div class="card shadow-sm" style="margin-top: 20px">

@@ -104,14 +104,19 @@ def questionView(request, id):
     my_note = ""
     stocks = STOCKS.split(",")
     print(stocks)
-    if str(question.title) in stocks:
-        data = get_stock_data_from_api(question.title)
-        html_content = data.to_html()
-        print(data)
-        my_note = my_note + " là mã cổ phiếu yêu thích "
+    # if len(str(question.title) in stocks:
+    #     data = get_stock_data_from_api(question.title)
+    #     html_content = data.to_html()
+    #     print(data)
+    #     my_note = my_note + " là mã cổ phiếu yêu thích "
+    
+    data = get_stock_data_from_api(question.title)
+    html_content = data.to_html()
+    print(data)
+    my_note = my_note + " là mã cổ phiếu yêu thích "
     #question.title = question.title
     question.body = html_content
-    html_graph = data.plot(x='Close',y='Volume',kind = 'scatter')
+    html_graph = ""# data.plot(x='Close',y='Volume',kind = 'scatter')
     html_content = html_content + html_graph
     context = {'question': question, 'answers': answers, 'comments':comments,
                'current_user': current_user, 'points': question.points,

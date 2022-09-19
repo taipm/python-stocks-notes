@@ -68,23 +68,25 @@ def voteView(request, id, question_or_answer):
     return JsonResponse({'vote_type': vote_type, 'points': points})
 
 def questionView(request, id):
+    print(id)
     current_user = request.user
     question = Question.objects.get(pk=id)
-    answers = Answer.objects.filter(question_id=id).order_by('created')
-    answers_serialized = AnswerSerializer(answers, many=True).data
-    comments = []
-    for answer in answers:
-        comments.extend(Comment.objects.filter(answer_id=answer.id))
-        #print(comments)
-    for answer in answers_serialized:
-        answer['upvoted'] = False
-        answer['downvoted'] = False
-        if not current_user.is_authenticated:
-            pass
-        elif current_user.upvoted_answers.filter(id=answer['id']).count() > 0:
-            answer['upvoted'] = True
-        elif current_user.downvoted_answers.filter(id=answer['id']).count() > 0:
-            answer['downvoted'] = True
+    print(question)
+    # answers = Answer.objects.filter(question_id=id).order_by('created')
+    # answers_serialized = AnswerSerializer(answers, many=True).data
+    # comments = []
+    # for answer in answers:
+    #     comments.extend(Comment.objects.filter(answer_id=answer.id))
+    #     #print(comments)
+    # for answer in answers_serialized:
+    #     answer['upvoted'] = False
+    #     answer['downvoted'] = False
+    #     if not current_user.is_authenticated:
+    #         pass
+    #     elif current_user.upvoted_answers.filter(id=answer['id']).count() > 0:
+    #         answer['upvoted'] = True
+    #     elif current_user.downvoted_answers.filter(id=answer['id']).count() > 0:
+    #         answer['downvoted'] = True
     
     # For the question
     upvoted = False
@@ -102,28 +104,31 @@ def questionView(request, id):
     
     print(question.title)
     my_note = ""
-    stocks = STOCKS.split(",")
-    print(stocks)
+    #stocks = STOCKS.split(",")
+    #print(stocks)
     # if len(str(question.title) in stocks:
     #     data = get_stock_data_from_api(question.title)
     #     html_content = data.to_html()
     #     print(data)
     #     my_note = my_note + " là mã cổ phiếu yêu thích "
     
-    data = get_stock_data_from_api(question.title)
-    html_content = data.to_html()
-    print(data)
+    # data = get_stock_data_from_api(question.title)
+    # html_content = data.to_html()
+    # print(data)
+    html_content = ""
     my_note = my_note + " là mã cổ phiếu yêu thích "
-    #question.title = question.title
-    question.body = html_content
+    question.title = question.title
+    question.body = "content" #html_content
     html_graph = ""# data.plot(x='Close',y='Volume',kind = 'scatter')
     html_content = html_content + html_graph
-    context = {'question': question, 'answers': answers, 'comments':comments,
-               'current_user': current_user, 'points': question.points,
-               'upvoted': upvoted, 'downvoted': downvoted,
-               'asked_by_user': asked_by_user,
-               'upvoted': upvoted, 'downvoted': downvoted,
-               'answers_serialized': answers_serialized}
+    # context = {'question': question, 'answers': answers, 'comments':comments,
+    #            'current_user': current_user, 'points': question.points,
+    #            'upvoted': upvoted, 'downvoted': downvoted,
+    #            'asked_by_user': asked_by_user,
+    #            'upvoted': upvoted, 'downvoted': downvoted,
+    #            'answers_serialized': answers_serialized}
+    context = {'question': question}
+    
     return render(request, 'question.html', context)
 
 def newView(request):

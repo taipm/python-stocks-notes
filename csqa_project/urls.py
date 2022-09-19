@@ -5,7 +5,7 @@ from main.views import homeFeedView, testView, leaderboardView
 from pages.views import aboutPageView, searchView
 from questions.views import (addComment, questionView, saveComment, update, updateQuestion, newView, 
                             answerView, doSearch, search, myCommentsView, viewUpdateComment, updateComment,viewComment,
-                            myQuestionsView, myAnswersView, questionVoteView, viewMarket,
+                            myQuestionsView, myWordsView ,myAnswersView, questionVoteView, viewMarket,
                             updateAnswer, saveAnswer, answerVoteView, viewAnswer, viewGraph)
 
 
@@ -41,4 +41,5 @@ urlpatterns = [
     path('question/my_answers/', myAnswersView, name='my-answers'),
     path('question/my_comments/', myCommentsView, name='my-comments'),
     path('question/my_questions/', myQuestionsView, name='my-questions'),
+    path('question/my_words/', myWordsView, name='my-words'),
 ]

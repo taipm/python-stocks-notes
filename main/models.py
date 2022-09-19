@@ -100,23 +100,39 @@ class Answer(models.Model):
         return self.text
 
 class Vocabulary(models.Model):
-    enText = ""
-    viText = ""
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    enText = models.CharField(max_length=20)
+    viText = models.TextField(blank=True, null=True)
+    created     = models.DateTimeField(editable=False)
+    modified    = models.DateTimeField()
+    #answers_count = models.IntegerField(default=0)
+    points = models.IntegerField(default=0)
+    hidden = models.BooleanField(default=False)
+    #answers = []
     @property
+    # def num_answers(self):
+    #     self.answers = Answer.objects.filter(question_id = self.id)
+    #     return len(self.answers)
     def x_ago(self):
         diff = timezone.now() - self.created
         return x_ago_helper(diff)
-    
+    def show_points(self):
+        if self.points < 0:
+            return 0
+        else:
+            return self.points
+
+    def update_points(self):
+        update_points_helper(self)
+        
     def save(self, *args, **kwargs):
         ''' On save, update timestamps '''
         if not self.id:
             self.created = timezone.now()
         self.modified = timezone.now()
-        return super(Comment, self).save(*args, **kwargs)
-
+        return super(Vocabulary, self).save(*args, **kwargs)
     def __str__(self):
         return self.enText
-    
     
 #TAIPM - ADD COMMENT
 class Comment(models.Model):

@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect, HttpResponseBadRequest, JsonRespon
 from django.shortcuts import render
 from django.urls import reverse
 from main.models import (Comment, CommentForm, Question, Answer, QuestionForm, AnswerForm, CommentSerializer,
-                        QuestionSerializer, AnswerSerializer)
+                        QuestionSerializer, AnswerSerializer, Vocabulary)
 from django.core.paginator import Paginator
 import numpy as np
 import matplotlib.pyplot as plt
@@ -183,6 +183,14 @@ def myAnswersView(request):
                     'answers_exist': answers_exist,
                     'page_obj': page_obj})
 
+def myWordsView(request):
+    current_user = request.user
+    questions = Vocabulary.objects.filter(user_id = current_user.id).order_by('-created')
+    questions_exist = len(questions) > 0
+    return render(request, 'my_words.html',
+                  {'current_user': current_user, 'questions': questions,
+                   'questions_exist': questions_exist})
+    
 def myQuestionsView(request):
     current_user = request.user
     questions = Question.objects.filter(user_id = current_user.id).order_by('-created')

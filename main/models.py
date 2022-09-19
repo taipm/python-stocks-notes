@@ -99,6 +99,25 @@ class Answer(models.Model):
     def __str__(self):
         return self.text
 
+class Vocabulary(models.Model):
+    enText = ""
+    viText = ""
+    @property
+    def x_ago(self):
+        diff = timezone.now() - self.created
+        return x_ago_helper(diff)
+    
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.modified = timezone.now()
+        return super(Comment, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.enText
+    
+    
 #TAIPM - ADD COMMENT
 class Comment(models.Model):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)

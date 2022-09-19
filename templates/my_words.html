@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% for question in questions %}
+<div id="quesstion">
+<a href="/question/{{question.id}}">{{ question.title }}</a>
+<span class="text-secondary num-answers">({{ question.num_answers }} answers)
+</span>
+<div class='text-secondary' style="font-size: 14px">{{ question.user }}<span
+        style="margin-right: 6px; margin-left: 6px;">
+        |</span></span>{{ question.x_ago }}
+    | <a href="/question/{{question.id}}/update">Update</a>
+</div>
+<div class="question-text">
+    {{question.body}}
+</div>
+{% for a in question.answers %}
+<div class='answer-block'>
+    <hr class='answer-hr' />
+    <div class='text-secondary' style="font-size: 14px">{{ a.user }}<span
+            style="margin-right: 6px; margin-left: 6px;">|</span></span>{{ a.x_ago }}
+        | <a href="/answer/{{a.id}}/update">edit</a>
+    </div>
+    <div class="answer-text">
+        {{a.text}}
+    </div>
+</div>
+<!-- <a href="/answer/{{a.id}}/addComment">addComment</a> | <a href="/answer/{{answer.id}}/update">Update</a> -->
+{% endfor %}
+</div>
+<!-- <div class='answers'>
+    
+</div> -->
+<hr class='answer-hr' />
+{% endfor %}
+{% if not questions_exist %}
+    <p>You haven't asked any questions yet.</p>
+{% endif %}
+{% endblock %}

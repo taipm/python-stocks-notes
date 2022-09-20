@@ -118,9 +118,9 @@ def questionView(request, id):
     html_content = ""
     my_note = my_note + " là mã cổ phiếu yêu thích "
     question.title = question.title
-    question.body = "content" #html_content
+    #question.body = "content" #html_content
     html_graph = ""# data.plot(x='Close',y='Volume',kind = 'scatter')
-    html_content = html_content + html_graph
+    html_content = html_content + question.body
     # context = {'question': question, 'answers': answers, 'comments':comments,
     #            'current_user': current_user, 'points': question.points,
     #            'upvoted': upvoted, 'downvoted': downvoted,

@@ -1,18 +1,18 @@
-from main.models import Comment
 from django.contrib import admin
 from django.urls import path, include
-from main.views import homeFeedView, testView, leaderboardView
-from pages.views import aboutPageView, searchView
+from main.views import homeFeedView, leaderboardView
+from pages.views import aboutPageView
 from questions.views import (addComment, questionView, saveComment, update, updateQuestion, newView, 
                             answerView, doSearch, search, myCommentsView, viewUpdateComment, updateComment,viewComment,
-                            myQuestionsView, myWordsView ,myAnswersView, questionVoteView, viewMarket,
+                            myQuestionsView, myWordsView ,myAnswersView, questionVoteView, viewMarket,                            
                             updateAnswer, saveAnswer, answerVoteView, viewAnswer, viewGraph)
+from transactions.views import myTransactionsView
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', homeFeedView),
-    path('test/', testView),
+    #path('test/', testView),
     path('leaderboard/', leaderboardView),
     #path('search/', searchView, name='search'),
     path('search/', search, name='search'),
@@ -42,4 +42,5 @@ urlpatterns = [
     path('question/my_comments/', myCommentsView, name='my-comments'),
     path('question/my_questions/', myQuestionsView, name='my-questions'),
     path('question/my_words/', myWordsView, name='my-words'),
+    path('transactions/my_transactions/', myTransactionsView, name='my-transactions'),
 ]

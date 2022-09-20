@@ -27,6 +27,30 @@ def update_points_helper(obj):
     obj.points = upvotes - downvotes
     obj.save()
 
+class Transaction(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    symbol = models.CharField(max_length=200)
+    quantiy = models.DecimalField(default=0,decimal_places=2,max_digits=10)
+    price = models.DecimalField(default=0,decimal_places=2,max_digits=10)
+    note = models.CharField(max_length=1000,default="")
+    created     = models.DateTimeField(editable=False)
+    modified    = models.DateTimeField()        
+    hidden = models.BooleanField(default=False)
+
+    @property    
+    def x_ago(self):
+        diff = timezone.now() - self.created
+        return x_ago_helper(diff)    
+        
+    def save(self, *args, **kwargs):
+        ''' On save, update timestamps '''
+        if not self.id:
+            self.created = timezone.now()
+        self.modified = timezone.now()
+        return super(Transaction, self).save(*args, **kwargs)
+    def __str__(self):
+        return self.symbol
+
 class Question(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
@@ -100,11 +124,11 @@ class Answer(models.Model):
         return self.text
 
 class Vocabulary(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    enText = models.CharField(max_length=20)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True)
+    enText = models.CharField(max_length=20, default="")
     viText = models.TextField(blank=True, null=True)
-    created     = models.DateTimeField(editable=False)
-    modified    = models.DateTimeField()
+    created     = models.DateTimeField(editable=False,default=timezone.now())
+    modified    = models.DateTimeField(default=timezone.now())
     #answers_count = models.IntegerField(default=0)
     points = models.IntegerField(default=0)
     hidden = models.BooleanField(default=False)

@@ -29,23 +29,23 @@ def leaderboardView(request):
     return render(request, 'leaderboard.html', context)
 
 
-from django.shortcuts import render
-from django.http import HttpResponse
-from bokeh.plotting import figure
-from bokeh.embed import components
+# from django.shortcuts import render
+# from django.http import HttpResponse
+# from bokeh.plotting import figure
+# from bokeh.embed import components
 
-def testView(request):
-    # current_user = request.user
-    # context = {'username': current_user.username,
-    #            'current_user': current_user}
-    # return render(request, 'test.html', context)
-    #create a plot
-    print('Giao dien')
-    plot = figure(plot_width=400, plot_height=400)
+# def testView(request):
+#     # current_user = request.user
+#     # context = {'username': current_user.username,
+#     #            'current_user': current_user}
+#     # return render(request, 'test.html', context)
+#     #create a plot
+#     print('Giao dien')
+#     plot = figure(plot_width=400, plot_height=400)
  
-   # add a circle renderer with a size, color, and alpha
+#    # add a circle renderer with a size, color, and alpha
  
-    plot.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5], size=20, color="navy", alpha=0.5)
+#     plot.circle([1, 2, 3, 4, 5], [6, 7, 2, 4, 5], size=20, color="navy", alpha=0.5)
  
-    script, div = components(plot) 
-    return render(request, 'test.html', {'script': script, 'div': div})
+#     script, div = components(plot) 
+#     return render(request, 'test.html', {'script': script, 'div': div})
